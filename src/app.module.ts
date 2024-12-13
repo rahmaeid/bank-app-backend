@@ -6,6 +6,8 @@ import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './guards/auth.guard';
 import { AuthModule } from './auth/auth.module';
 import { AuthJwtModule } from './jwt/jwt.module';
+import { UserModule } from './user/user.module';
+import { BranchModule } from './branch/branch.module';
 
 @Module({
   imports: [
@@ -15,6 +17,8 @@ import { AuthJwtModule } from './jwt/jwt.module';
     TypeOrmModule.forRootAsync(typeOrmAsyncConfig),
     AuthJwtModule,
     AuthModule,
+    UserModule,
+    BranchModule,
   ],
   controllers: [],
   providers: [

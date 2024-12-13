@@ -1,6 +1,15 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { Expose } from 'class-transformer';
 import { User } from './user.entity';
+import { City } from './city.entity';
+import { Branch } from '../../branch/entities/branch.entity';
 
 @Entity()
 export class Country {
@@ -19,6 +28,21 @@ export class Country {
   // relations
   @OneToMany(() => User, (user) => user.phone_country)
   user_phones: User[];
+
+  @OneToMany(() => User, (user) => user.country)
+  users: User[];
+
+  @OneToMany(() => City, (city) => city.country)
+  cities: City[];
+
+  @OneToMany(() => Branch, (branch) => branch.country)
+  branches: Branch[];
+
+  @CreateDateColumn()
+  created_at: Date;
+
+  @UpdateDateColumn()
+  updated_at: Date;
 
   @Expose({ toPlainOnly: true })
   get flag(): string {

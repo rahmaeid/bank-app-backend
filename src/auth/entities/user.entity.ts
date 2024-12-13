@@ -13,6 +13,7 @@ import {
 import { genSaltSync, hashSync } from 'bcrypt';
 import { UserRefreshToken } from '../../user_refresh_token/user_refresh_token.entity';
 import { Country } from './country.entity';
+import { City } from './city.entity';
 
 @Entity()
 export class User {
@@ -34,6 +35,12 @@ export class User {
   @Column({ type: 'uuid', nullable: true })
   phone_country_id: string;
 
+  @Column({ type: 'uuid', nullable: true })
+  country_id: string;
+
+  @Column({ type: 'uuid', nullable: true })
+  city_id: string;
+
   @Column({ nullable: true })
   phone_number: string;
 
@@ -50,6 +57,14 @@ export class User {
   @ManyToOne(() => Country, (country) => country.user_phones)
   @JoinColumn({ name: 'phone_country_id' })
   phone_country: Country;
+
+  @ManyToOne(() => Country, (country) => country.users)
+  @JoinColumn({ name: 'country_id' })
+  country: Country;
+
+  @ManyToOne(() => City, (city) => city.users)
+  @JoinColumn({ name: 'city_id' })
+  city: City;
 
   @OneToMany(() => UserRefreshToken, (refreshTokens) => refreshTokens.user)
   refreshTokens: UserRefreshToken[];

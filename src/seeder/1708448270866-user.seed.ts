@@ -2,6 +2,8 @@ import { Country } from '../auth/entities/country.entity';
 import { User } from '../auth/entities/user.entity';
 import { Factory, Seeder } from 'typeorm-seeding';
 import { Connection, getRepository } from 'typeorm';
+import { City } from '../auth/entities/city.entity';
+import { Branch } from '../branch/entities/branch.entity';
 
 export default class UserSeeder implements Seeder {
   public async run(factory: Factory, connection: Connection): Promise<any> {
@@ -17,13 +19,73 @@ export default class UserSeeder implements Seeder {
       .into(Country)
       .values([countries])
       .execute();
+    const country_id = country.identifiers[0].id;
+    // save cities
+    const cities = [
+      {
+        name: 'Cairo',
+        country_id,
+      },
+      {
+        name: 'Alexandria',
+        country_id,
+      },
+      {
+        name: 'Giza',
+        country_id,
+      },
+    ];
+    // save the cities and get the id
+    const city = await connection
+      .createQueryBuilder()
+      .insert()
+      .into(City)
+      .values(cities)
+      .execute();
+    const cairo_id = city.identifiers[0].id;
+    const alexandria_id = city.identifiers[1].id;
+    const giza_id = city.identifiers[2].id;
+
+    const dummy_location = () =>
+      `ST_GeomFromText('POINT(-0.1412 51.557)', 4326)`;
+    // save the branches and get the id
+    await connection
+      .createQueryBuilder()
+      .insert()
+      .into(Branch)
+      .values([
+        {
+          name: 'Nasr city',
+          country_id,
+          city_id: cairo_id,
+          swift_code: 'NBEGEGCX563',
+          location: dummy_location,
+        },
+        {
+          name: 'Alexandria',
+          country_id,
+          city_id: alexandria_id,
+          swift_code: 'CIBEEGCX140',
+          location: dummy_location,
+        },
+        {
+          name: 'Mohandseen',
+          country_id,
+          city_id: giza_id,
+          swift_code: 'ARABEGCX',
+          location: dummy_location,
+        },
+      ])
+      .execute();
 
     const user = getRepository(User).create({
       first_name: 'Rahma',
       last_name: 'Abd elkhalek',
       national_id: '29803300201053',
       email: 'rahmaeid326@gmail.com',
-      phone_country_id: country.identifiers[0].id,
+      phone_country_id: country_id,
+      city_id: alexandria_id,
+      country_id: country_id,
       phone_number: '1211185562',
       password: 'Qwerty123',
     });
