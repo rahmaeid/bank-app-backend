@@ -3,7 +3,8 @@ import { User } from '../auth/entities/user.entity';
 import { Factory, Seeder } from 'typeorm-seeding';
 import { Connection, getRepository } from 'typeorm';
 import { City } from '../auth/entities/city.entity';
-import { Branch } from '../branch/entities/branch.entity';
+import { Branch } from '../booking/entities/branch.entity';
+import { Booking } from '../booking/entities/booking.entity';
 
 export default class UserSeeder implements Seeder {
   public async run(factory: Factory, connection: Connection): Promise<any> {
@@ -49,7 +50,7 @@ export default class UserSeeder implements Seeder {
     const dummy_location = () =>
       `ST_GeomFromText('POINT(-0.1412 51.557)', 4326)`;
     // save the branches and get the id
-    await connection
+    const branch = await connection
       .createQueryBuilder()
       .insert()
       .into(Branch)
@@ -91,5 +92,25 @@ export default class UserSeeder implements Seeder {
     });
 
     await getRepository(User).save(user);
+
+    // get user id
+    const user_id = user.id;
+
+    // get the current date plus 20 day
+    const date = new Date();
+    date.setDate(date.getDate() + 20);
+    // create a booking for the user
+    await connection
+      .createQueryBuilder()
+      .insert()
+      .into(Booking)
+      .values([
+        {
+          user_id,
+          branch_id: branch.identifiers[1].id,
+          date,
+        },
+      ])
+      .execute();
   }
 }

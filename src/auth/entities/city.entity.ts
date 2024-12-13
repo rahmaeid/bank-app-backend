@@ -9,7 +9,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Branch } from '../../branch/entities/branch.entity';
+import { Branch } from '../../booking/entities/branch.entity';
 import { User } from './user.entity';
 
 @Entity()

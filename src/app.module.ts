@@ -7,7 +7,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { AuthModule } from './auth/auth.module';
 import { AuthJwtModule } from './jwt/jwt.module';
 import { UserModule } from './user/user.module';
-import { BranchModule } from './branch/branch.module';
+import { BookingModule } from './booking/booking.module';
 
 @Module({
   imports: [
@@ -18,7 +18,7 @@ import { BranchModule } from './branch/branch.module';
     AuthJwtModule,
     AuthModule,
     UserModule,
-    BranchModule,
+    BookingModule,
   ],
   controllers: [],
   providers: [

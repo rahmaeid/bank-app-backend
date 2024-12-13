@@ -9,7 +9,7 @@ import {
 import { Expose } from 'class-transformer';
 import { User } from './user.entity';
 import { City } from './city.entity';
-import { Branch } from '../../branch/entities/branch.entity';
+import { Branch } from '../../booking/entities/branch.entity';
 
 @Entity()
 export class Country {

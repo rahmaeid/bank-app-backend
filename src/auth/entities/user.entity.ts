@@ -14,37 +14,38 @@ import { genSaltSync, hashSync } from 'bcrypt';
 import { UserRefreshToken } from '../../user_refresh_token/user_refresh_token.entity';
 import { Country } from './country.entity';
 import { City } from './city.entity';
+import { Booking } from '../../booking/entities/booking.entity';
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ nullable: true })
+  @Column()
   first_name: string;
 
-  @Column({ nullable: true })
+  @Column()
   last_name: string;
 
-  @Column({ nullable: true })
+  @Column()
   national_id: string;
 
-  @Column({ unique: true, nullable: true })
+  @Column({ unique: true })
   email: string;
 
-  @Column({ type: 'uuid', nullable: true })
+  @Column({ type: 'uuid' })
   phone_country_id: string;
 
-  @Column({ type: 'uuid', nullable: true })
+  @Column({ type: 'uuid' })
   country_id: string;
 
-  @Column({ type: 'uuid', nullable: true })
+  @Column({ type: 'uuid' })
   city_id: string;
 
   @Column({ nullable: true })
   phone_number: string;
 
-  @Column({ select: false, nullable: true })
+  @Column({ select: false })
   password: string;
 
   @CreateDateColumn()
@@ -65,6 +66,9 @@ export class User {
   @ManyToOne(() => City, (city) => city.users)
   @JoinColumn({ name: 'city_id' })
   city: City;
+
+  @OneToMany(() => Booking, (booking) => booking.user)
+  bookings: Booking[];
 
   @OneToMany(() => UserRefreshToken, (refreshTokens) => refreshTokens.user)
   refreshTokens: UserRefreshToken[];

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { access_token_payload } from '../auth/auth.enum';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../auth/entities/user.entity';
@@ -19,10 +19,10 @@ export class UserService {
     // get the user by id
     const user = await this.userRepo.findOne({
       where: { id: sub },
-      relations: ['phone_country'],
+      relations: ['phone_country', 'city', 'country'],
     });
 
-    if (!user) throw new Error('User not found');
+    if (!user) throw new UnauthorizedException('User not found');
 
     // convert the user entity to a plain object
     const plainUser = classToPlain(user);

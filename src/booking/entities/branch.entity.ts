@@ -1,3 +1,4 @@
+import { Booking } from './booking.entity';
 import { City } from '../../auth/entities/city.entity';
 import { Country } from '../../auth/entities/country.entity';
 import {
@@ -9,6 +10,7 @@ import {
   Point,
   ManyToOne,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 
 @Entity()
@@ -16,16 +18,16 @@ export class Branch {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ nullable: true })
+  @Column()
   name: string;
 
-  @Column({ nullable: true })
+  @Column()
   country_id: string;
 
-  @Column({ nullable: true })
+  @Column()
   city_id: string;
 
-  @Column({ nullable: true })
+  @Column()
   swift_code: string;
 
   @Column({
@@ -47,6 +49,9 @@ export class Branch {
   @ManyToOne(() => City, (city) => city.branches)
   @JoinColumn({ name: 'city_id' })
   city: City;
+
+  @OneToMany(() => Booking, (booking) => booking.branch)
+  bookings: Booking[];
 
   @ManyToOne(() => Country, (country) => country.branches)
   @JoinColumn({ name: 'country_id' })
