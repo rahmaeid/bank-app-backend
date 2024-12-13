@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  db:
+    container_name: bankcheckin-pg-container
+    image: postgis/postgis
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: bankcheckin
+    ports:
+      - '5433:5432'
+    volumes:
+      - ./pgdata:/var/lib/bankcheckin-postgresql/data
+volumes:
+  pgdata:
