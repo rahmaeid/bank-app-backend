@@ -6,10 +6,12 @@ import { Branch } from './entities/branch.entity';
 import { User } from '../auth/entities/user.entity';
 import { City } from '../auth/entities/city.entity';
 import { Booking } from './entities/booking.entity';
+import { BranchService } from './branch.service';
+import { BranchController } from './branch.controller';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User, Branch, City, Booking])],
-  controllers: [BookingController],
-  providers: [BookingService],
+  controllers: [BookingController, BranchController],
+  providers: [BookingService, BranchService],
 })
 export class BookingModule {}

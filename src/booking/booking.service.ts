@@ -21,7 +21,10 @@ export class BookingService {
   ) {}
 
   async getUserBookings({ sub }: access_token_payload) {
-    return this.bookingRepo.find({ where: { user_id: sub } });
+    return this.bookingRepo.find({
+      where: { user_id: sub },
+      relations: ['branch'],
+    });
   }
 
   async getRemainingBookingsCount(
