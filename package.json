@@ -22,7 +22,8 @@
     "seed:config": "ts-node ./node_modules/typeorm-seeding/dist/cli.js config -n src/config/typeorm.config-migrations.ts",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "up": "docker-compose up -d",
-    "down": "docker-compose down"
+    "down": "docker-compose down",
+    "host": "ngrok http 8082"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
