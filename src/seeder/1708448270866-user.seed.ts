@@ -82,13 +82,13 @@ export default class UserSeeder implements Seeder {
     const user = getRepository(User).create({
       first_name: 'Rahma',
       last_name: 'Abd elkhalek',
-      national_id: '29803300201053',
+      national_id: '11223344556677',
       email: 'rahmaeid326@gmail.com',
       phone_country_id: country_id,
       city_id: alexandria_id,
       country_id: country_id,
       phone_number: '1211185562',
-      password: 'Qwerty123',
+      password: 'Aa1234567',
     });
 
     await getRepository(User).save(user);
